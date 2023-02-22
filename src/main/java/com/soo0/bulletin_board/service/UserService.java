@@ -7,4 +7,6 @@ public interface UserService {
     // 회원가입
     @Transactional
     void signup(UserDto userDto);
+
+    boolean validateDuplicateUser(String email);
 }

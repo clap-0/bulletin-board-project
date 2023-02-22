@@ -17,7 +17,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void signup(UserDto userDto) {
-        validateDuplicateUser(userDto);
         encodePassword(userDto);
         userMapper.insertUser(userDto);
     }
@@ -27,12 +26,10 @@ public class UserServiceImpl implements UserService {
         userDto.setPassword(encodedPassword);
     }
 
-    private void validateDuplicateUser(UserDto userDto) {
+    @Override
+    public boolean validateDuplicateUser(String email) {
         // 하나의 이메일로는 하나의 계정만 가능
-        UserDto findUser = userMapper.selectUserByEmail(userDto.getEmail());
-        if (findUser != null) {
-            String msg = "이미 사용 중입니다. 다른 이메일을 이용해주세요.";
-            throw new IllegalStateException(msg);
-        }
+        UserDto findUser = userMapper.selectUserByEmail(email);
+        return findUser != null;
     }
 }
