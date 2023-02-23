@@ -1,4 +1,4 @@
-package com.soo0.bulletin_board.domain;
+package com.soo0.bulletin_board.domain.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Getter @Setter
 @NoArgsConstructor
-public class UserFormDto {
+public class SignupRequest {
     @Pattern(regexp = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z\\d-]+\\.)+[a-zA-Z]{2,6}$",
             message = "이메일 형식이 올바르지 않습니다.")
     private String email;

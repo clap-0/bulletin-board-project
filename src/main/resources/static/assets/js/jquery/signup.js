@@ -5,8 +5,14 @@ $(document).ready(function () {
     const passwordConfirmationNode = signupForm.querySelector("#passwordConfirmation");
     const userNameNode = signupForm.querySelector("#userName");
 
+    // 기존 에러메시지들을 전부 삭제하는 함수
+    let removeErrorMessages = function () {
+        const errorMessages = signupForm.querySelectorAll(".errMsg");
+        errorMessages.forEach(errorMessage => errorMessage.remove());
+    };
+
     // 에러메시지를 출력하는 함수
-    let showErrorMessage = function (result) {
+    let showErrorMessages = function (result) {
         if (!Object.hasOwn(result, 'responseText')) {
             return;
         }
@@ -16,9 +22,7 @@ $(document).ready(function () {
         }
         const errors = responseJSON.errors;
 
-        // 기존 에러메시지들 전부 삭제
-        const errorMessages = signupForm.querySelectorAll(".errMsg");
-        errorMessages.forEach(errorMessage => errorMessage.remove());
+        removeErrorMessages();
 
         // 새 에러메시지들 추가
         errors.forEach((error) => {
@@ -28,7 +32,7 @@ $(document).ready(function () {
             errorMessage.classList.add("errMsg");
             $(errorMessage).appendTo($(parentNode).parent());
         })
-    }
+    };
 
     // 회원가입 폼에서 제출 시 비동기로 회원을 등록하는 함수
     $("#signupForm").on("submit", (event) => {
@@ -40,17 +44,18 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'POST',
-            url: '/signup',
+            url: '/users/new',
             headers: { "content-type": "application/json"},
             dataType: 'text',
             data: JSON.stringify({email, password, passwordConfirmation, userName}),
             success: () => {
+                removeErrorMessages();
                 alert("회원가입이 완료되었습니다. 로그인페이지로 이동합니다.");
                 window.location.href = "/login";
             },
             error: (result) => {
                 console.log(result);
-                showErrorMessage(result);
+                showErrorMessages(result);
             }
         })
     })

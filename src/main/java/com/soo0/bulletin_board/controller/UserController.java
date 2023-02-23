@@ -1,7 +1,8 @@
 package com.soo0.bulletin_board.controller;
 
-import com.soo0.bulletin_board.domain.UserDto;
-import com.soo0.bulletin_board.domain.UserFormDto;
+import com.soo0.bulletin_board.domain.vo.User;
+import com.soo0.bulletin_board.domain.vo.UserInfo;
+import com.soo0.bulletin_board.domain.dto.SignupRequest;
 import com.soo0.bulletin_board.service.UserService;
 import com.soo0.bulletin_board.validation.ValidationResult;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class UserController {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.addValidators(new UserFormValidator());
+        binder.addValidators(new SignupRequestValidator());
     }
 
     @ExceptionHandler(BindException.class)
@@ -36,25 +37,24 @@ public class UserController {
     }
 
     // 회원가입 페이지로 이동
-    @GetMapping("/signup")
+    @GetMapping("/users/new")
     public String signup() {
         return "views/signup";
     }
 
     // 회원가입 페이지에서 회원 등록
-    @PostMapping("/signup")
+    @PostMapping("/users/new")
     @ResponseBody
-    public ResponseEntity<?> signup(@Valid @RequestBody UserFormDto formDto, BindingResult bindingResult) throws BindException {
-        if (userService.validateDuplicateUser(formDto.getEmail())) {
+    public ResponseEntity<?> signup(@Valid @RequestBody SignupRequest signupRequest, BindingResult bindingResult) throws BindException {
+        if (userService.validateDuplicateUser(signupRequest.getEmail())) {
             bindingResult.rejectValue("email", "duplicate");
         }
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
 
-        UserDto userDto = new UserDto(formDto.getEmail(), formDto.getPassword(), formDto.getUserName());
-        userService.signup(userDto);
+        User user = new UserInfo(signupRequest.getEmail(), signupRequest.getPassword(), signupRequest.getUserName());
+        userService.signup(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
-
