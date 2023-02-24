@@ -1,34 +1,39 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:replace="fragments/head :: head"></th:block>
+    <th:block th:replace="fragments/head :: headFragment"></th:block>
 </head>
 <body>
 <form th:action="@{/users/new}" method="post" id="signupForm">
-    <h1>회원가입</h1>
-    <hr>
-
-    <div class="inputContainer">
-        <label for="email" th:text="이메일"></label>
-        <input type="email" placeholder="이메일을 입력해주세요" id="email" required/>
+    <div class="form-header">
+        <h1>회원가입</h1>
+        <hr>
     </div>
+    <div class="form-content">
+        <div class="form-group">
+            <label for="email" th:text="이메일"></label>
+            <input type="email" placeholder="이메일을 입력해주세요" id="email" required/>
+        </div>
 
-    <div class="inputContainer">
-        <label for="password" th:text="비밀번호"></label>
-        <input type="password" placeholder="영문자,숫자,특수문자 포함 8~16자" id="password"
-               minlength="8" maxlength="16" required/>
-        <input type="password" placeholder="비밀번호를 확인해주세요" id="passwordConfirmation"
-               minlength="8" maxlength="16" required/>
+        <div class="form-group">
+            <label for="password" th:text="비밀번호"></label>
+            <input type="password" placeholder="영문자,숫자,특수문자 포함 8~16자" id="password"
+                   minlength="8" maxlength="16" required/>
+            <input type="password" placeholder="비밀번호를 확인해주세요" id="passwordConfirmation"
+                   minlength="8" maxlength="16" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="userName" th:text="이름"></label>
+            <input type="text" placeholder="이름을 입력해주세요" id="userName"
+                   minlength="2" maxlength="30" required/>
+        </div>
     </div>
-
-    <div class="inputContainer">
-        <label for="userName" th:text="이름"></label>
-        <input type="text" placeholder="이름을 입력해주세요" id="userName"
-               minlength="2" maxlength="30" required/>
+    <div class="form-footer">
+        <button type="submit" class="signup_btn">회원가입</button>
     </div>
-
-    <button type="submit" class="signup_btn">회원가입</button>
 </form>
-<script th:inline="javascript" th:src="@{/assets/js/jquery/signup.js}"></script>
+<script th:inline="javascript" type="module" th:src="@{/assets/js/jquery/signup.js}"></script>
 </body>
 </html>

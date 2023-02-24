@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -23,4 +24,15 @@ public class SignupRequest {
 
     @Size(min = 2, max = 30, message = "이름은 {min}~{max}자입니다.")
     private String userName;
+
+    /*
+    * @AssertTrue 어노테이션이 실패 시
+    * is-를 제외한 나머지 부분을 FieldError 클래스의 field 속성으로 저장하기 때문에
+    * isPasswordConfirmation 으로 함수명을 지어서
+    * signup.js에서 error의 field와 에러가 발생한 input을 매핑하는 과정을 줄임
+    * */
+    @AssertTrue(message = "비밀번호가 일치하지 않습니다.")
+    public boolean isPasswordConfirmation() {
+        return password != null && password.equals(passwordConfirmation);
+    }
 }

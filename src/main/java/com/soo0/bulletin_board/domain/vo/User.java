@@ -1,5 +1,7 @@
 package com.soo0.bulletin_board.domain.vo;
 
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
 public interface User {

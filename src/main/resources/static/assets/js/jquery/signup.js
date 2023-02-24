@@ -6,32 +6,39 @@ $(document).ready(function () {
     const userNameNode = signupForm.querySelector("#userName");
 
     // 기존 에러메시지들을 전부 삭제하는 함수
-    let removeErrorMessages = function () {
-        const errorMessages = signupForm.querySelectorAll(".errMsg");
-        errorMessages.forEach(errorMessage => errorMessage.remove());
+    const clearErrorMessages = () => {
+        document.querySelectorAll(".errMsg")
+                .forEach(errorMessage => errorMessage.remove());
+    };
+
+    // 에러메시지를 생성하는 함수
+    const createErrorMessage = (message) => {
+        const errorMessage = document.createElement("p");
+        errorMessage.innerHTML = message;
+        errorMessage.classList.add("errMsg");
+        return errorMessage;
     };
 
     // 에러메시지를 출력하는 함수
-    let showErrorMessages = function (result) {
-        if (!Object.hasOwn(result, 'responseText')) {
-            return;
-        }
-        const responseJSON = JSON.parse(result.responseText);
-        if (!Object.hasOwn(responseJSON, 'errors')) {
-            return;
-        }
-        const errors = responseJSON.errors;
+    const showErrorMessages = (response) => {
+        clearErrorMessages();
 
-        removeErrorMessages();
+        const responseJSON = JSON.parse(response.responseText);
+        const {fieldErrors, message} = responseJSON;
 
-        // 새 에러메시지들 추가
-        errors.forEach((error) => {
-            const parentNode = document.getElementById(error.field);
-            const errorMessage = document.createElement("p");
-            errorMessage.innerHTML = error['message'];
-            errorMessage.classList.add("errMsg");
-            $(errorMessage).appendTo($(parentNode).parent());
-        })
+        if (message) {
+            const parentNode = document.querySelector(".form-content");
+            const errorMessage = createErrorMessage(message);
+            $(errorMessage).prependTo(parentNode);
+        }
+        if (Array.isArray(fieldErrors) && fieldErrors.length) {
+            // 새 에러메시지들 추가
+            fieldErrors.forEach((fieldError) => {
+                const parentNode = document.getElementById(fieldError.field);
+                const errorMessage = createErrorMessage(fieldError.message);
+                $(errorMessage).appendTo($(parentNode).parent());
+            })
+        }
     };
 
     // 회원가입 폼에서 제출 시 비동기로 회원을 등록하는 함수
@@ -49,13 +56,13 @@ $(document).ready(function () {
             dataType: 'text',
             data: JSON.stringify({email, password, passwordConfirmation, userName}),
             success: () => {
-                removeErrorMessages();
+                clearErrorMessages();
                 alert("회원가입이 완료되었습니다. 로그인페이지로 이동합니다.");
                 window.location.href = "/login";
             },
-            error: (result) => {
-                console.log(result);
-                showErrorMessages(result);
+            error: (response) => {
+                console.log(response);
+                showErrorMessages(response);
             }
         })
     })

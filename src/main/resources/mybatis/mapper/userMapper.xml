@@ -8,13 +8,13 @@
     </insert>
 
     <!-- 회원정보 조회-->
-    <select id="selectUser" parameterType="int" resultType="User">
+    <select id="selectUser" parameterType="int" resultType="UserInfo">
         select user_id, email, password, user_name, register_date
         from user where user_id = #{userId};
     </select>
 
     <!-- 이메일로 회원정보 조회-->
-    <select id="selectUserByEmail" parameterType="String" resultType="User">
+    <select id="selectUserByEmail" parameterType="String" resultType="UserInfo">
         select user_id, email, password, user_name, register_date
         from user where email = #{email};
     </select>

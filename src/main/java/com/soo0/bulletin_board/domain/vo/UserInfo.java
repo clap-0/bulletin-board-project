@@ -5,6 +5,7 @@ import lombok.*;
 import java.util.Date;
 
 @Getter @Setter
+@NoArgsConstructor
 public class UserInfo implements User {
     private Integer userId;
     private String email;

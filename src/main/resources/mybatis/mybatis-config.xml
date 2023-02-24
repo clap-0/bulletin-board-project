@@ -4,5 +4,6 @@
 <configuration>
     <typeAliases>
         <typeAlias alias="User" type="com.soo0.bulletin_board.domain.vo.User"/>
+        <typeAlias alias="UserInfo" type="com.soo0.bulletin_board.domain.vo.UserInfo"/>
     </typeAliases>
 </configuration>
