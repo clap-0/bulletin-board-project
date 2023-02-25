@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     public void signup(User user) {
         validateDuplicateUser(user);
         encodePassword(user);
-        userMapper.insertUser(user);
+        userMapper.insert(user);
     }
 
     // 사용자의 비밀번호 암호화
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     private void validateDuplicateUser(User user) {
         String email = user.getEmail();
         // 하나의 이메일로는 하나의 계정만 가능
-        User findUser = userMapper.selectUserByEmail(email);
+        User findUser = userMapper.selectByEmail(email);
         if (findUser != null) {
             throw new DuplicateUserException(ErrorCode.DUPLICATE_LOGIN_ID, "Duplicate user email");
         }
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public Integer login(LoginRequest loginRequest) {
-        User user = userMapper.selectUserByEmail(loginRequest.getEmail());
+        User user = userMapper.selectByEmail(loginRequest.getEmail());
         // 주어진 이메일을 가지는 계정이 없거나 비밀번호가 일치하지 않으면 UserNotFoundException 던짐
         if (!validateLoginRequest(loginRequest, user)) {
             throw new UserNotFoundException(ErrorCode.UNAUTHORIZED, "Incorrect username or password.");

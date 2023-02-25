@@ -32,7 +32,7 @@ public class UserController {
     // 회원가입 페이지에서 회원 등록
     @PostMapping("/users/new")
     @ResponseBody
-    public ResponseEntity<String> signup(@Valid @RequestBody SignupRequest signupRequest, BindingResult bindingResult)
+    public ResponseEntity<Void> signup(@Valid @RequestBody SignupRequest signupRequest, BindingResult bindingResult)
                 throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
@@ -40,7 +40,7 @@ public class UserController {
 
         User user = new UserInfo(signupRequest.getEmail(), signupRequest.getPassword(), signupRequest.getUserName());
         userService.signup(user);
-        return new ResponseEntity<>("User creation success", HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/login")
@@ -50,7 +50,7 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity<String> login(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult,
+    public ResponseEntity<Void> login(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult,
                                    HttpSession session) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
@@ -59,6 +59,6 @@ public class UserController {
         Integer userId = userService.login(loginRequest);
         // 로그인 상태인 것을 저장하기 위해 세션에 로그인한 사용자의 id를 저장
         session.setAttribute("id", userId);
-        return new ResponseEntity<>("Login success", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
