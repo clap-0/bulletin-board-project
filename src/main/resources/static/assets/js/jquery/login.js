@@ -1,9 +1,8 @@
 $(document).ready(function () {
-    const signupForm = document.getElementById("signupForm");
-    const emailNode = signupForm.querySelector("#email");
-    const passwordNode = signupForm.querySelector("#password");
-    const passwordConfirmationNode = signupForm.querySelector("#passwordConfirmation");
-    const userNameNode = signupForm.querySelector("#userName");
+    const loginForm = document.getElementById("loginForm");
+    const emailNode = loginForm.querySelector("#email");
+    const passwordNode = loginForm.querySelector("#password");
+
 
     // 기존 에러메시지들을 전부 삭제하는 함수
     const clearErrorMessages = () => {
@@ -41,27 +40,24 @@ $(document).ready(function () {
         }
     };
 
-    // 회원가입 폼에서 제출 시 비동기로 회원을 등록하는 함수
-    $("#signupForm").on("submit", (event) => {
+    // 로그인 폼에서 제출 시 비동기로 데이터베이스를 확인해 로그인하는 함수
+    $("#loginForm").on("submit", (event) => {
         event.preventDefault();
         const email = emailNode.value;
         const password = passwordNode.value;
-        const passwordConfirmation = passwordConfirmationNode.value;
-        const userName = userNameNode.value;
 
         $.ajax({
             type: 'POST',
-            url: '/users/new',
+            url: '/login',
             headers: { "content-type": "application/json"},
             dataType: 'text',
-            data: JSON.stringify({email, password, passwordConfirmation, userName}),
+            data: JSON.stringify({email, password}),
             success: () => {
-                clearErrorMessages();
-                alert("회원가입이 완료되었습니다. 로그인페이지로 이동합니다.");
-                window.location.href = "/login";
+                alert("로그인이 완료되었습니다.");
+                window.location.href = "/";
             },
-            error: (response) => {
-                showErrorMessages(response);
+            error: (result) => {
+                showErrorMessages(result);
             }
         })
     })

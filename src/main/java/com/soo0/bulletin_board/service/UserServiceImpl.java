@@ -7,7 +7,6 @@ import com.soo0.bulletin_board.exception.ErrorCode;
 import com.soo0.bulletin_board.exception.UserNotFoundException;
 import com.soo0.bulletin_board.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,4 +41,28 @@ public class UserServiceImpl implements UserService {
             throw new DuplicateUserException(ErrorCode.DUPLICATE_LOGIN_ID, "Duplicate user email");
         }
     }
+
+    // 로그인 기능
+    @Transactional
+    @Override
+    public Integer login(LoginRequest loginRequest) {
+        User user = userMapper.selectUserByEmail(loginRequest.getEmail());
+        // 주어진 이메일을 가지는 계정이 없거나 비밀번호가 일치하지 않으면 UserNotFoundException 던짐
+        if (!validateLoginRequest(loginRequest, user)) {
+            throw new UserNotFoundException(ErrorCode.UNAUTHORIZED, "Incorrect username or password.");
+        }
+        // 이메일과 비밀번호가 DB에 있는 정보와 일치하면 해당 사용자의 ID 반환
+        return user.getUserId();
+    }
+
+    // 로그인 요청으로 주어지는 계정 정보에 일치하는 계정이 있는지 확인
+    private boolean validateLoginRequest(LoginRequest loginRequest, User user) {
+        // 계정이 존재하는지 확인
+        if (user == null) {
+            return false;
+        }
+        // 로그인 요청으로 입력된 비밀번호와 계정의 비밀번호가 일치하는지 확인
+        return passwordEncoder.matches(loginRequest.getPassword(), user.getPassword());
+    }
+
 }

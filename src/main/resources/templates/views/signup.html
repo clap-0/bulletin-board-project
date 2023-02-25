@@ -34,6 +34,9 @@
         <button type="submit" class="signup_btn">회원가입</button>
     </div>
 </form>
-<script th:inline="javascript" type="module" th:src="@{/assets/js/jquery/signup.js}"></script>
+<div class="additional-links">
+    <p><a th:href="@{/login}">로그인</a> 페이지로 이동</p>
+</div>
+<script th:inline="javascript" th:src="@{/assets/js/jquery/signup.js}"></script>
 </body>
 </html>

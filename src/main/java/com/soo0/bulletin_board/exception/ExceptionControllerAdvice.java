@@ -22,9 +22,16 @@ public class ExceptionControllerAdvice {
     }
 
     // 회원가입 도중 이미 존재하는 ID(이메일)을 사용하려 할 시 DuplicateUserException 발생
-    @ExceptionHandler
+    @ExceptionHandler(DuplicateUserException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleDuplicateUserException(DuplicateUserException exception) {
+        return new ErrorResponse(exception);
+    }
+
+    // 로그인 요청에서 주어진 사용자 정보와 일치하는 사용자가 데이터베이스에 없으면 UserNotFoundException 발생
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse handleUserNotFoundException(UserNotFoundException exception) {
         return new ErrorResponse(exception);
     }
 }
