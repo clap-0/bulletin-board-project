@@ -5,13 +5,20 @@ $(document).ready(function () {
     const passwordConfirmationNode = signupForm.querySelector("#passwordConfirmation");
     const userNameNode = signupForm.querySelector("#userName");
 
-    // 기존 에러메시지들을 전부 삭제하는 함수
+    /**
+     * 기존 에러메시지들을 전부 삭제하는 함수이다.
+     */
     const clearErrorMessages = () => {
         document.querySelectorAll(".errMsg")
                 .forEach(errorMessage => errorMessage.remove());
     };
 
-    // 에러메시지를 생성하는 함수
+    /**
+     * 에러 메시지를 담은 HTML 요소를 생성하는 함수이다.
+     *
+     * @param message 에러 메시지
+     * @returns {HTMLParagraphElement} HTML Paragraph 요소
+     */
     const createErrorMessage = (message) => {
         const errorMessage = document.createElement("p");
         errorMessage.innerHTML = message;
@@ -19,20 +26,26 @@ $(document).ready(function () {
         return errorMessage;
     };
 
-    // 에러메시지를 출력하는 함수
+    /**
+     * 에러 메시지들을 출력하는 함수이다.
+     *
+     * @param response HTTP로 컨트롤러에게 받은 응답
+     */
     const showErrorMessages = (response) => {
         clearErrorMessages();
 
         const responseJSON = JSON.parse(response.responseText);
         const {fieldErrors, message} = responseJSON;
 
+        /** HTTP 응답으로 받은 에러 메시지를 출력 */
         if (message) {
             const parentNode = document.querySelector(".form-content");
             const errorMessage = createErrorMessage(message);
             $(errorMessage).prependTo(parentNode);
         }
+
+        /** 필드 에러에 대한 새로운 에러 메시지들을 출력 */
         if (Array.isArray(fieldErrors) && fieldErrors.length) {
-            // 새 에러메시지들 추가
             fieldErrors.forEach((fieldError) => {
                 const parentNode = document.getElementById(fieldError.field);
                 const errorMessage = createErrorMessage(fieldError.message);
@@ -41,7 +54,9 @@ $(document).ready(function () {
         }
     };
 
-    // 회원가입 폼에서 제출 시 비동기로 회원을 등록하는 함수
+    /**
+     * 회원가입 폼에서 submit 이벤트 발생시 비동기로 회원가입 요청을 보내는 함수이다.
+     */
     $("#signupForm").on("submit", (event) => {
         event.preventDefault();
         const email = emailNode.value;
