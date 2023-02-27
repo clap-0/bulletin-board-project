@@ -1,44 +1,69 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.soo0.bulletin_board.mapper.UserMapper">
-    <!-- 회원정보 등록 -->
+    <!-- INSERT -->
+    <!--
+        이 쿼리는 회원정보를 데이터베이스에 삽입한다.
+        Param: 사용자 정보를 담은 User 객체
+    -->
     <insert id="insert" parameterType="User">
         insert into user (email, password, user_name)
         values (#{email}, #{password}, #{userName});
     </insert>
 
-    <!-- 회원정보 조회-->
+    <!-- SELECT -->
+    <!--
+        이 쿼리는 userId가 일치하는 사용자 정보를 조회한다.
+        Param: userId 조회할 사용자 ID
+    -->
     <select id="select" parameterType="int" resultType="UserInfo">
         select user_id, email, password, user_name, register_date, is_admin
         from user where user_id = #{userId};
     </select>
 
-    <!-- 이메일로 회원정보 조회-->
+    <!--
+        이 쿼리는 email이 일치하는 사용자 정보를 조회한다.
+        Param: email 조회할 사용자 이메일 주소
+    -->
     <select id="selectByEmail" parameterType="String" resultType="UserInfo">
         select user_id, email, password, user_name, register_date, is_admin
         from user where email = #{email};
     </select>
 
-    <!-- 회원 수 세기 -->
+    <!--
+        이 쿼리는 데이터베이스에 저장된 사용자 수를 반환한다.
+    -->
     <select id="count" resultType="int">
         select count(*) from user;
     </select>
 
-    <!-- 회원정보 수정 -->
+    <!-- UPDATE -->
+    <!--
+        이 쿼리는 userId가 일치하는 사용자의 정보를 수정한다.
+        Param: 사용자 정보를 담은 User 객체
+    -->
     <update id="update" parameterType="User">
         update user
         set user_name = #{userName}
         where user_id = #{userId};
     </update>
     
-    <!-- 비밀번호 변경 -->
+    <!--
+        이 쿼리는 userId가 일치하는 사용자의 비밀번호를 변경한다.
+        Param: userId 비밀번호를 변경할 사용자 ID
+        Param: password 변경할 새 비밀번호
+    -->
     <update id="updatePassword" parameterType="map">
         update user
         set password = #{password}
         where user_id = #{userId};
     </update>
 
-    <!-- 회원정보 삭제 -->
+    <!-- DELETE -->
+    <!--
+        이 쿼리는 userId가 일치하는 사용자 정보를 삭제한다.
+        Param: userId 삭제할 사용자 ID
+    -->
     <delete id="delete" parameterType="int">
         delete
         from user

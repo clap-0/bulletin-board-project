@@ -4,7 +4,7 @@
     <!-- INSERT -->
     <!--
         이 쿼리는 게시글 정보를 데이터베이스에 삽입한다.
-        Param: 게시글 정보를 담은 Post 객체
+        Param: 게시글 정보를 담은 PostSaveRequest 객체
     -->
     <insert id="insert" parameterType="PostSaveRequest">
         insert into post (board_id, user_id, title, content)
@@ -64,7 +64,7 @@
     <!--
         이 쿼리는 postId와 userId가 일치하는 게시글 정보를 수정한다.
         수정되는 정보는 게시판 ID, 제목, 내용, 수정일이다.
-        Param: post 게시글 정보를 담은 Post 객체
+        Param: request 게시글 정보를 담은 PostSaveRequest 객체
         Param: userId 수정 요청을 보낸 사용자 ID
     -->
     <update id="update" parameterType="map">
