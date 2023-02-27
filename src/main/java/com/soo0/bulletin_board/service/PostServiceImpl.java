@@ -27,7 +27,7 @@ public class PostServiceImpl implements PostService {
     /**
      * 데이터베이스 행 추가/수정/삭제 실패
      */
-    private final int FAIL = 0;
+    private static final int FAIL = 0;
     private final PostMapper postMapper;
 
     /**
@@ -112,7 +112,7 @@ public class PostServiceImpl implements PostService {
         checkPermission(requestorId, postInfo.getUserId());
 
         int result = postMapper.delete(postId, requestorId);
-        checkResult(result, "Failed to delete post");
+        checkResult(result, "Failed to remove post");
     }
 
     /**
@@ -129,6 +129,7 @@ public class PostServiceImpl implements PostService {
      * 게시글 정보를 반환하는 메서드이다.
      *
      * @param postId 반환할 게시글 ID
+     * @return 게시글 정보를 담은 PostInfo 객체
      * @throws PostNotFoundException 게시글이 존재하지 않는 경우 발생하는 예외
      */
     private PostInfo getPostInfo(Integer postId) throws PostNotFoundException {

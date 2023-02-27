@@ -4,6 +4,7 @@ import com.soo0.bulletin_board.domain.vo.Board;
 import com.soo0.bulletin_board.domain.vo.BoardInfo;
 import com.soo0.bulletin_board.domain.vo.User;
 import com.soo0.bulletin_board.exception.BoardNotFoundException;
+import com.soo0.bulletin_board.exception.DataModificationException;
 import com.soo0.bulletin_board.exception.ErrorCode;
 import com.soo0.bulletin_board.exception.UserNotFoundException;
 import com.soo0.bulletin_board.mapper.BoardMapper;
@@ -25,7 +26,7 @@ public class BoardServiceImpl implements BoardService {
     /**
      * 데이터베이스 행 추가/수정/삭제 실패
      */
-    private final int FAIL = 0;
+    private static final int FAIL = 0;
     private final BoardMapper boardMapper;
     private final UserMapper userMapper;
 
@@ -50,7 +51,8 @@ public class BoardServiceImpl implements BoardService {
     public void create(Board board, Integer userId) {
         checkPermission(userId);
 
-        boardMapper.insert(board);
+        int result = boardMapper.insert(board);
+        checkResult(result, "Failed to create board");
     }
 
     /**
@@ -66,10 +68,7 @@ public class BoardServiceImpl implements BoardService {
         checkPermission(userId);
 
         int result = boardMapper.update(board);
-
-        if (result == FAIL) {
-            throw new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND, "Board not found");
-        }
+        checkResult(result, "Failed to modify board");
     }
 
     /**
@@ -85,10 +84,7 @@ public class BoardServiceImpl implements BoardService {
         checkPermission(userId);
 
         int result = boardMapper.delete(boardId);
-
-        if (result == FAIL) {
-            throw new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND, "Board not found");
-        }
+        checkResult(result, "Failed to remove board");
     }
 
     /**
@@ -99,7 +95,7 @@ public class BoardServiceImpl implements BoardService {
      */
     private void checkPermission(Integer userId) {
         checkLogin(userId);
-        User user = checkUserExistence(userId);
+        User user = getUser(userId);
 
         if (!user.getIsAdmin()) {   // TODO - 스프링 시큐리티 배우면 수정할 것
             throw new AccessDeniedException("Permission denied");
@@ -107,13 +103,13 @@ public class BoardServiceImpl implements BoardService {
     }
 
     /**
-     * 존재하는 사용자의 ID인지 확인하는 메서드이다.
+     * 사용자 정보를 반환하는 메서드이다.
      *
-     * @param userId 존재 여부를 확인할 사용자의 ID
-     * @return userID를 ID로 갖는 사용자 정보를 담은 User 객체
-     * @throws UserNotFoundException 해당 사용자 ID를 가진 사용자가 존재하지 않는 경우 발생하는 예외
+     * @param userId 반환할 사용자의 ID
+     * @return 사용자 정보를 담은 User 객체
+     * @throws UserNotFoundException 사용자가 존재하지 않는 경우 발생하는 예외
      */
-    private User checkUserExistence(Integer userId) {
+    private User getUser(Integer userId) {
         User user = userMapper.select(userId);
 
         if (user == null) {
@@ -131,6 +127,19 @@ public class BoardServiceImpl implements BoardService {
     private void checkLogin(Integer userId) {
         if (userId == null) {
             throw new InsufficientAuthenticationException("Access denied: authentication required");
+        }
+    }
+
+    /**
+     * 데이터의 생성/수정/삭제가 이루어졌는지 확인하는 메서드이다.
+     *
+     * @param result 데이터베이스에서 변경된 행의 수
+     * @param message 에러 발생시 출력할 메시지
+     * @throws DataModificationException 데이터베이스 행이 변경되지 않았을 때 발생하는 예외
+     */
+    private void checkResult(int result, String message) throws DataModificationException {
+        if (result == FAIL) {
+            throw new DataModificationException(ErrorCode.DATA_MODIFICATION_ERROR, message);
         }
     }
 }

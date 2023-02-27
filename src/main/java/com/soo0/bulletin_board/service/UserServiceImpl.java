@@ -2,6 +2,7 @@ package com.soo0.bulletin_board.service;
 
 import com.soo0.bulletin_board.domain.dto.LoginRequest;
 import com.soo0.bulletin_board.domain.vo.User;
+import com.soo0.bulletin_board.exception.DataModificationException;
 import com.soo0.bulletin_board.exception.DuplicateUserException;
 import com.soo0.bulletin_board.exception.ErrorCode;
 import com.soo0.bulletin_board.mapper.UserMapper;
@@ -17,6 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+    /**
+     * 데이터베이스 행 추가/수정/삭제 실패
+     */
+    private static final int FAIL = 0;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
@@ -32,7 +37,8 @@ public class UserServiceImpl implements UserService {
 
         encodePassword(user);
 
-        userMapper.insert(user);
+        int result = userMapper.insert(user);
+        checkResult(result, "Failed to signup");
     }
 
     /**
@@ -83,16 +89,29 @@ public class UserServiceImpl implements UserService {
      * @param password 로그인 요청 비밀번호
      * @throws BadCredentialsException 주어진 이메일을 가지는 계정이 없거나 비밀번호가 일치하지 않으면 발생하는 예외
      */
-    private void checkAccount(String email, String password) {
+    private void checkAccount(String email, String password) throws BadCredentialsException {
         boolean hasAccount = false;
         User user = userMapper.selectByEmail(email);
 
-        if (user != null) {
+        if (user != null) {     // 계정이 존재하는 경우 비밀번호 일치 확인
             hasAccount = passwordEncoder.matches(password, user.getPassword());
         }
 
-        if (!hasAccount) {
+        if (!hasAccount) {      // 계정이 존재하지 않거나 비밀번호가 일치하지 않으면 예외 발생
             throw new BadCredentialsException("Incorrect username or password.");
+        }
+    }
+
+    /**
+     * 데이터의 생성/수정/삭제가 이루어졌는지 확인하는 메서드이다.
+     *
+     * @param result 데이터베이스에서 변경된 행의 수
+     * @param message 에러 발생시 출력할 메시지
+     * @throws DataModificationException 데이터베이스 행이 변경되지 않았을 때 발생하는 예외
+     */
+    private void checkResult(int result, String message) throws DataModificationException {
+        if (result == FAIL) {
+            throw new DataModificationException(ErrorCode.DATA_MODIFICATION_ERROR, message);
         }
     }
 }
