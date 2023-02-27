@@ -71,6 +71,30 @@ public class ExceptionControllerAdvice {
     }
 
     /**
+     * 존재하지 않는 게시글에 접근할 때 발생하는 PostNotFoundException 예외 클래스를 처리하는 메서드이다.
+     *
+     * @param exception PostNotFoundException 객체
+     * @return PostNotFoundException 예외 클래스에 대한 ErrorResponse 객체
+     */
+    @ExceptionHandler(PostNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handlePostNotFoundException(PostNotFoundException exception) {
+        return new ErrorResponse(exception);
+    }
+
+    /**
+     * 데이터 생성/수정/삭제 작업이 실패한 경우 발생하는 DataModificationException 예외 클래스를 처리하는 메서드이다.
+     *
+     * @param exception DataModificationException 객체
+     * @return DataModificationException 예외 클래스에 대한 ErrorResponse 객체
+     */
+    @ExceptionHandler(DataModificationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleDataModificationException(DataModificationException exception) {
+        return new ErrorResponse(exception);
+    }
+
+    /**
      * 로그인 요청에서 주어진 사용자 정보와 일치하는 사용자가
      * 데이터베이스에 없으면 발생하는 BadCredentialsException 예외 클래스를 처리하는 메서드이다.
      *
@@ -85,7 +109,7 @@ public class ExceptionControllerAdvice {
     }
 
     /**
-     * 다른 사용자의 게시물, 댓글, 사용자 정보를 변경하려 하거나
+     * 다른 사용자의 게시글, 댓글, 사용자 정보를 변경하려 하거나
      * 관리자 권한이 필요한 작업을 수행하려 할 때 발생하는 AccessDeniedException 예외 클래스를 처리하는 메서드이다.
      *
      * @param exception AccessDeniedException 객체

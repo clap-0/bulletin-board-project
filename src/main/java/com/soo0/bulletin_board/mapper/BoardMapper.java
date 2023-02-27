@@ -3,8 +3,6 @@ package com.soo0.bulletin_board.mapper;
 import com.soo0.bulletin_board.domain.vo.Board;
 import com.soo0.bulletin_board.domain.vo.BoardInfo;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.dao.DataAccessException;
 
 import java.util.List;
 
@@ -47,7 +45,7 @@ public interface BoardMapper {
      * 게시판의 정보를 수정하는 메서드이다.
      *
      * @param board 수정할 게시판 정보를 담은 Board 객체
-     * @return 변경된 데이터베이스 행의 개수. 1: 성공, 0: 실패, -1: 오류 발생
+     * @return 수정된 데이터베이스 행의 개수. 1: 성공, 0: 실패, -1: 오류 발생
      */
     int update(Board board);
 

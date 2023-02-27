@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soo0.bulletin_board.mapper.PostMapper">
+    <!-- INSERT -->
+    <!--
+        이 쿼리는 게시글 정보를 데이터베이스에 삽입한다.
+        Param: 게시글 정보를 담은 Post 객체
+    -->
+    <insert id="insert" parameterType="PostSaveRequest">
+        insert into post (board_id, user_id, title, content)
+        values (#{boardId}, #{userId}, #{title}, #{content});
+    </insert>
+
+    <!-- SELECT -->
+    <!--
+        모든 게시글 목록을 조회하는 재사용가능한 SQL 구문을 정의한다.
+    -->
+    <sql id="selectPost">
+        select post_id, board_id, user_id, title, content, view_cnt, comment_cnt, like_cnt, created_date, modified_date
+        from post
+    </sql>
+
+    <!--
+        게시글 목록 조회에서 사용되는 정렬 및 페이징 처리를 위한 SQL 구문을 정의한다.
+    -->
+    <sql id="sortAndPaging">
+        order by created_date desc, post_id desc
+        limit #{offset}, #{pageSize}
+    </sql>
+
+    <!--
+        이 쿼리는 postId가 일치하는 게시글 정보를 조회한다.
+        Param: postId 조회할 게시글 ID
+    -->
+    <select id="select" parameterType="int" resultType="PostInfo">
+        <include refid="selectPost" />
+        where post_id = #{postId}
+    </select>
+
+    <!--
+        이 쿼리는 특정 게시판의 게시글 목록을 생성일순으로 조회한다.
+        Param: boardId 조회할 게시판 ID
+    -->
+    <select id="selectAll" parameterType="PostListRequest" resultType="PostInfo">
+        <include refid="selectPost" />
+        <if test='boardId != null'>
+            where board_id = #{boardId}
+        </if>
+        <include refid="sortAndPaging" />
+    </select>
+
+    <!--
+        이 쿼리는 특정 사용자의 게시글 목록을 생성일순으로 조회한다.
+    -->
+
+    <!--
+        이 쿼리는 데이터베이스에 저장된 게시글 수를 반환한다.
+    -->
+    <select id="count" resultType="int">
+        select count(*) from post;
+    </select>
+
+    <!-- UPDATE -->
+    <!--
+        이 쿼리는 postId와 userId가 일치하는 게시글 정보를 수정한다.
+        수정되는 정보는 게시판 ID, 제목, 내용, 수정일이다.
+        Param: post 게시글 정보를 담은 Post 객체
+        Param: userId 수정 요청을 보낸 사용자 ID
+    -->
+    <update id="update" parameterType="map">
+        update post
+        set board_id = #{request.boardId},
+            title = #{request.title},
+            content = #{request.content},
+            modified_date = now()
+        where post_id = #{request.postId} and user_id = #{userId};
+    </update>
+
+    <!--
+        이 쿼리는 postId가 일치하는 게시글의 조회 수를 증가시킨다.
+        Param: postId 수정할 게시글 ID
+    -->
+    <update id="updateViewCnt" parameterType="int">
+        update post
+        set view_cnt = view_cnt + 1
+        where post_id = #{postId};
+    </update>
+
+    <!--
+        이 쿼리는 postId가 일치하는 게시글의 댓글 수를 증가 혹은 감소시킨다.
+        Param: postId 수정할 게시글 ID
+        Param: cnt 댓글 수 증감분
+    -->
+    <update id="updateCommentCnt" parameterType="map">
+        update post
+        set comment_cnt = comment_cnt + #{cnt}
+        where post_id = #{postId};
+    </update>
+
+    <!--
+        이 쿼리는 게시글 ID에 해당하는 게시글의 좋아요 수를 증가 혹은 감소시킨다.
+        Param: postId 수정할 게시글 ID
+        Param: cnt 좋아요 수 증감분
+    -->
+    <update id="updateLikeCnt" parameterType="map">
+        update post
+        set like_cnt = like_cnt + #{cnt}
+        where post_id = #{postId};
+    </update>
+
+    <!-- DELETE -->
+    <!--
+        이 쿼리는 게시글 ID에 해당하는 게시글을 삭제한다.
+        Param: postId 삭제할 게시글 ID
+        Param: userId 삭제 요청을 보낸 사용자 ID
+    -->
+    <delete id="delete" parameterType="map">
+        delete
+        from post
+        where post_id = #{postId} and user_id = #{userId};
+    </delete>
+</mapper>

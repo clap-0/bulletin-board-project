@@ -15,6 +15,9 @@ public enum ErrorCode {
     /** 서버에서 처리할 수 없는 경우 발생하는 에러 코드 */
     INTERNAL_SERVER_ERROR(500, "COMMON-002", "서버에서 처리할 수 없는 경우"),
 
+    /** 서버에서 처리할 수 없는 경우 발생하는 에러 코드 */
+    DATA_MODIFICATION_ERROR(400, "COMMON-003", "데이터 생성/수정/삭제 작업이 실패한 경우"),
+
 
     /** 계정명이 중복된 경우 발생하는 에러 코드 */
     DUPLICATE_LOGIN_ID(400, "ACCOUNT-001", "계정명이 중복된 경우"),
@@ -33,7 +36,10 @@ public enum ErrorCode {
 
 
     /** 게시판을 찾을 수 없는 경우 발생하는 에러 코드 */
-    BOARD_NOT_FOUND(404, "BOARD-001", "게시판을 찾을 수 없는 경우");
+    BOARD_NOT_FOUND(404, "BOARD-001", "게시판을 찾을 수 없는 경우"),
+
+    /** 게시글을 찾을 수 없는 경우 발생하는 에러 코드 */
+    POST_NOT_FOUND(404, "POST-001", "게시글을 찾을 수 없는 경우");
 
     /**
      * HTTP 상태 코드
