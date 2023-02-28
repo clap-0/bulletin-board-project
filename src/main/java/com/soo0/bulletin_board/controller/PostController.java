@@ -29,7 +29,7 @@ public class PostController {
      * @return 게시글 목록과 페이징 정보를 담은 PostListResponse 객체
      */
     @GetMapping
-    public ResponseEntity<PostListResponse> list(@RequestBody PostListRequest request) {
+    public ResponseEntity<PostListResponse> list(PostListRequest request) {
         PostListResponse response = postService.list(request);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
