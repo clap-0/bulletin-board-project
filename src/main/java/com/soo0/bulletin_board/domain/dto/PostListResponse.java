@@ -13,7 +13,7 @@ public class PostListResponse {
     /**
      * 조회할 게시글 목록
      */
-    private final List<PostInfo> postList;
+    private final List<PostResponse> postList;
 
     /**
      * 현재 페이지 번호
@@ -47,7 +47,7 @@ public class PostListResponse {
      * @param currentPage 페이지 네비게이터에 표시될 현재 페이지 번호
      * @param totalPageCount 총 페이지 개수
      */
-    public PostListResponse(List<PostInfo> postList, int currentPage, int totalPageCount) {
+    public PostListResponse(List<PostResponse> postList, int currentPage, int totalPageCount) {
         this.postList = postList;
         this.currentPage = currentPage;
         this.totalPageCount = totalPageCount;

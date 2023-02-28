@@ -16,8 +16,9 @@
         모든 게시글 목록을 조회하는 재사용가능한 SQL 구문을 정의한다.
     -->
     <sql id="selectPost">
-        select post_id, board_id, user_id, title, content, view_cnt, comment_cnt, like_cnt, created_date, modified_date
-        from post
+        select p.post_id, p.board_id, p.user_id, p.title, p.content, p.view_cnt, p.comment_cnt, p.like_cnt,
+                p.created_date, p.modified_date, u.user_name
+        from post p join user u on p.user_id = u.user_id
     </sql>
 
     <!--
@@ -32,7 +33,7 @@
         이 쿼리는 postId가 일치하는 게시글 정보를 조회한다.
         Param: postId 조회할 게시글 ID
     -->
-    <select id="select" parameterType="int" resultType="PostInfo">
+    <select id="select" parameterType="int" resultType="PostResponse">
         <include refid="selectPost" />
         where post_id = #{postId}
     </select>
@@ -41,7 +42,7 @@
         이 쿼리는 특정 게시판의 게시글 목록을 생성일순으로 조회한다.
         Param: boardId 조회할 게시판 ID
     -->
-    <select id="selectAll" parameterType="PostListRequest" resultType="PostInfo">
+    <select id="selectAll" parameterType="PostListRequest" resultType="PostResponse">
         <include refid="selectPost" />
         <if test='boardId != null'>
             where board_id = #{boardId}

@@ -1,0 +1,69 @@
+#postListPage {
+    flex: 1;
+}
+
+#boardTitle {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+#postListBody {
+    font-size: 16px;
+}
+
+#postListBody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#postListBody td {
+    padding: 10px;
+    text-align: left;
+}
+
+#postListBody td:first-child {
+    width: 5%;
+}
+
+#postListBody td:nth-child(2) {
+    width: 55%;
+}
+
+#postListBody td:nth-child(2) a {
+    color: #333;
+    text-decoration: none;
+}
+
+#postListBody td:nth-child(2) a:hover {
+    text-decoration: underline;
+}
+
+#postListBody td:nth-child(3) {
+    width: 15%;
+}
+
+#postListBody td:nth-child(4) {
+    width: 15%;
+}
+
+#postListBody td:nth-child(5) {
+    width: 10%;
+}
+
+#postListPage .post-controls {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 15px;
+}
+
+#postListPage .page-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}

@@ -1,0 +1,50 @@
+.sidebar-title {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+#boardNav {
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+#boardNav .board-menu {
+    margin-bottom: 10px;
+}
+
+#boardNav .board-menu-title {
+    display: block;
+    padding-left: 3px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#boardNav .board-btn {
+    background-color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+}
+
+#boardNav .board-btn:hover {
+    background-color: #f2f2f2;
+}
+
+#boardNav .board-btn.current {
+    background-color: #ddd;
+}

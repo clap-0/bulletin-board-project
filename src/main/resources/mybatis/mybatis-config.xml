@@ -15,5 +15,6 @@
         <typeAlias alias="PostInfo" type="com.soo0.bulletin_board.domain.vo.PostInfo"/>
         <typeAlias alias="PostListRequest" type="com.soo0.bulletin_board.domain.dto.PostListRequest"/>
         <typeAlias alias="PostSaveRequest" type="com.soo0.bulletin_board.domain.dto.PostSaveRequest"/>
+        <typeAlias alias="PostResponse" type="com.soo0.bulletin_board.domain.dto.PostResponse"/>
     </typeAliases>
 </configuration>

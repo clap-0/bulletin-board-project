@@ -16,7 +16,7 @@
         이 쿼리는 게시판 목록을 생성된 순서대로 조회한다.
     -->
     <select id="selectAll" resultType="BoardInfo">
-        select board_id, parent_id, board_name
+        select board_id, ifnull(parent_id, board_id) as parent_id, board_name
         from board
         order by parent_id, board_id;
     </select>

@@ -1,6 +1,7 @@
 package com.soo0.bulletin_board.mapper;
 
 import com.soo0.bulletin_board.domain.dto.PostListRequest;
+import com.soo0.bulletin_board.domain.dto.PostResponse;
 import com.soo0.bulletin_board.domain.dto.PostSaveRequest;
 import com.soo0.bulletin_board.domain.vo.Post;
 import com.soo0.bulletin_board.domain.vo.PostInfo;
@@ -26,18 +27,18 @@ public interface PostMapper {
      * 게시글 정보를 조회하는 메서드이다.
      *
      * @param postId 조회할 게시글의 ID
-     * @return 조회할 게시글 정보를 담은 PostInfo 객체
+     * @return 조회할 게시글 정보를 담은 PostResponse 객체
      */
-    PostInfo select(Integer postId);
+    PostResponse select(Integer postId);
 
     /**
      * 특정 게시판의 게시글 목록을 조회하는 메서드이다.
      * 게시판 ID가 null인 경우, 모든 게시글 목록을 조회한다.
      *
      * @param request 게시글 목록 조회 요청을 담은 PostListRequest 객체
-     * @return 조회할 게시글 목록을 담은 List<PostInfo> 객체
+     * @return 조회할 게시글 목록을 담은 List<PostResponse> 객체
      */
-    List<PostInfo> selectAll(PostListRequest request);
+    List<PostResponse> selectAll(PostListRequest request);
 
     /*
      * TODO - 특정 사용자가 작성한 게시글 목록을 조회하는 메서드이다.

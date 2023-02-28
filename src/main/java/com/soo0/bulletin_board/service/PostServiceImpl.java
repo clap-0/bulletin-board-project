@@ -2,6 +2,7 @@ package com.soo0.bulletin_board.service;
 
 import com.soo0.bulletin_board.domain.dto.PostListRequest;
 import com.soo0.bulletin_board.domain.dto.PostListResponse;
+import com.soo0.bulletin_board.domain.dto.PostResponse;
 import com.soo0.bulletin_board.domain.dto.PostSaveRequest;
 import com.soo0.bulletin_board.domain.vo.Post;
 import com.soo0.bulletin_board.domain.vo.PostInfo;
@@ -43,8 +44,7 @@ public class PostServiceImpl implements PostService {
             request.setPage(totalPageCount);
         }
 
-        List<PostInfo> postList = postMapper.selectAll(request);
-
+        List<PostResponse> postList = postMapper.selectAll(request);
 
         return new PostListResponse(postList, request.getPage(), totalPageCount);
     }
@@ -53,17 +53,17 @@ public class PostServiceImpl implements PostService {
      * 게시글을 조회하는 메서드이다.
      *
      * @param postId 조회할 게시글 ID
-     * @return 조회된 게시글 정보
+     * @return 조회된 게시글 정보를 담은 PostResponse 객체
      */
     @Override
     @Transactional
-    public PostInfo read(Integer postId) {
-        PostInfo postInfo = getPostInfo(postId);
+    public PostResponse read(Integer postId) {
+        PostResponse response = getPostInfo(postId);
 
         int result = postMapper.updateViewCnt(postId);
         checkResult(result, "Failed to read post");
 
-        return postInfo;
+        return response;
     }
 
     /**
@@ -129,21 +129,21 @@ public class PostServiceImpl implements PostService {
      * 게시글 정보를 반환하는 메서드이다.
      *
      * @param postId 반환할 게시글 ID
-     * @return 게시글 정보를 담은 PostInfo 객체
+     * @return 게시글 정보를 담은 PostResponse 객체
      * @throws PostNotFoundException 게시글이 존재하지 않는 경우 발생하는 예외
      */
-    private PostInfo getPostInfo(Integer postId) throws PostNotFoundException {
-        PostInfo postInfo = null;
+    private PostResponse getPostInfo(Integer postId) throws PostNotFoundException {
+        PostResponse response = null;
 
         if (postId != null) {
-            postInfo = postMapper.select(postId);
+            response = postMapper.select(postId);
         }
 
-        if (postInfo == null) {
+        if (response == null) {
             throw new PostNotFoundException(ErrorCode.POST_NOT_FOUND, "Post not found");
         }
 
-        return postInfo;
+        return response;
     }
 
     /**

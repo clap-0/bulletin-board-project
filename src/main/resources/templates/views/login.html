@@ -5,9 +5,11 @@
   <th:block th:replace="fragments/head :: headFragment"></th:block>
 </head>
 <body>
+<header th:replace="fragments/header :: headerFragment"></header>
+
 <form th:action="@{/login}" method="post" id="loginForm">
   <div class="form-header">
-    <h1>로그인</h1>
+    <h2>로그인</h2>
     <hr/>
   </div>
   <div class="form-content">
@@ -30,5 +32,6 @@
   <p><a th:href="@{/users/new}">회원가입</a> 페이지로 이동</p>
 </div>
 <script th:inline="javascript" th:src="@{/assets/js/jquery/login.js}"></script>
+<script th:inline="javascript" th:src="@{/assets/js/jquery/header.js}"></script>
 </body>
 </html>

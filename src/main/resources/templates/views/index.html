@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="fragments/head :: headFragment"></th:block>
+</head>
+<body>
+<header th:replace="fragments/header :: headerFragment"></header>
+<main>
+    <div th:replace="fragments/sidebar :: boardSidebar"></div>
+    <div th:replace="fragments/main-content :: postListPage"></div>
+</main>
+<script th:inline="javascript" th:src="@{/assets/js/jquery/header.js}"></script>
+<script th:inline="javascript" th:src="@{/assets/js/jquery/board.js}"></script>
+<script th:inline="javascript" th:src="@{/assets/js/jquery/page.js}"></script>
+</body>
+</html>
