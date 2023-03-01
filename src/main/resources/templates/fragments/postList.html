@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="postListPage" id="postListPage">
+    <h3 id="boardTitle">전체 글 보기</h3>
+    <hr/>
+
+    <table id="postList">
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>등록일</th>
+            <th>조회수</th>
+        </tr>
+        </thead>
+        <tbody id="postListBody">
+        </tbody>
+    </table>
+
+    <ul class="post-controls">
+        <li><button class="btn__create-post">글쓰기</button></li>
+    </ul>
+
+    <div class="page-controls"></div>
+</div>
+</html>
+

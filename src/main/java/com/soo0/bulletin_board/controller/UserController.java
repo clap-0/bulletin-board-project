@@ -6,8 +6,10 @@ import com.soo0.bulletin_board.domain.vo.User;
 import com.soo0.bulletin_board.domain.vo.UserInfo;
 import com.soo0.bulletin_board.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +35,7 @@ public class UserController {
      */
     @PostMapping("/users/new")
     public ResponseEntity<Void> signup(@Valid @RequestBody SignupRequest signupRequest, BindingResult bindingResult)
-                throws BindException {
+            throws BindException {
         // 회원가입 요청 정보의 유효성 검사 결과에 오류가 있으면 BindException 예외 발생
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
@@ -49,15 +51,15 @@ public class UserController {
     /**
      * 로그인 요청을 처리하는 메서드이다.
      *
-     * @param loginRequest 로그인 요청 정보를 담은 LoginRequest 객체
+     * @param loginRequest  로그인 요청 정보를 담은 LoginRequest 객체
      * @param bindingResult 유효성 검사 결과를 담은 BindingResult 객체
-     * @param session HTTP 세션 객체
+     * @param session       HTTP 세션 객체
      * @return HTTP 상태코드를 포함하는 ResponseEntity 객체
      * @throws BindException loginRequest 파라미터의 유효성 검사 결과 오류가 있는 경우 발생하는 예외
      */
     @PostMapping("/login")
     public ResponseEntity<Void> login(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult,
-                                   HttpSession session) throws BindException {
+                                      HttpSession session) throws BindException {
         // 로그인 요청 정보의 유효성 검사 결과 오류가 있는 경우 BindException 예외 발생
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
@@ -76,7 +78,7 @@ public class UserController {
      *
      * @param session HTTP 세션 객체
      * @return HTTP 상태코드를 포함하는 ResponseEntity 객체
-     * @exception IllegalStateException 이미 로그아웃 상태인 경우 발생하는 예외
+     * @throws IllegalStateException 이미 로그아웃 상태인 경우 발생하는 예외
      */
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpSession session) {
@@ -87,5 +89,21 @@ public class UserController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * 현재 로그인 중인 사용자의 ID를 반환하는 메서드이다.
+     *
+     * @param session HTTP 세션 객체
+     * @return 현재 로그인 중인 사용자 ID
+     * @throws InsufficientAuthenticationException 로그인 하지 않은 사용자인 경우 발생하는 예외
+     */
+    @GetMapping("/users/me")
+    public ResponseEntity<Integer> getUserId(HttpSession session) {
+        Integer userId = (Integer) session.getAttribute("id");
+        if (userId == null) {
+            throw new InsufficientAuthenticationException("Access denied: authentication required");
+        }
+        return new ResponseEntity<>(userId, HttpStatus.OK);
     }
 }

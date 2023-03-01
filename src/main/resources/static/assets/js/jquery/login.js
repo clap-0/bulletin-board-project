@@ -69,7 +69,7 @@ $(document).ready(function () {
             data: JSON.stringify({email, password}),
             success: () => {
                 alert("로그인이 완료되었습니다.");
-                window.location.href = "/";
+                window.location.replace("/");
             },
             error: (result) => {
                 showErrorMessages(result);

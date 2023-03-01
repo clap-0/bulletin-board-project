@@ -8,6 +8,14 @@ $(document).ready(function () {
     })
 
     /**
+     * 게시글에서 목록 버튼 클릭 시, 해당 글이 속한 게시판의 게시글 목록을 출력하도록 클릭 이벤트를 추가했다.
+     */
+    $(".post-controls").on("click", ".btn__list-post", (event) => {
+        const boardId = $(this).closest(".post-header__board").attr("data-bno");
+        showPostListAndPager(1, boardId);
+    })
+
+    /**
      * 게시글 목록을 화면에 출력하는 함수이다.
      *
      * @param postList 게시글 목록
@@ -27,8 +35,9 @@ $(document).ready(function () {
             const dateCell = row.insertCell();
             const viewsCell = row.insertCell();
 
+            row.setAttribute("data-pno", post.postId);
             idCell.textContent = post.postId;
-            $(titleCell).html('<a href='+"/posts/"+post.postId+'>'+post.title+'</a>');
+            $(titleCell).html('<a class="link__post" href='+"/posts/"+post.postId+'>'+post.title+'</a>');
             writerCell.textContent = post.userName;
             dateCell.textContent = new Date(post.createdDate).toLocaleDateString();
             viewsCell.textContent = post.viewCnt;
@@ -89,6 +98,8 @@ $(document).ready(function () {
         let url = '/posts?page='+page;
         if (boardId !== undefined) {
             url += '&boardId='+boardId;
+            const boardName = $(`#boardNav [data-bno="${boardId}"] .board-btn`).text();
+            $("#boardTitle").html(boardName);
         }
 
         $.ajax({
@@ -100,11 +111,16 @@ $(document).ready(function () {
                 const responseJSON = JSON.parse(response);
                 const {postList} = responseJSON
 
+                // mainContent 요소 모든 하위 요소들에게 hidden 속성을 부여
+                $("#mainContent > *").attr("hidden", "");
+
                 // 게시글 목록 출력
                 showPostList(postList);
 
                 // 페이지 네비게이터 출력
                 showPager(responseJSON, boardId);
+
+                $("#postListContainer").removeAttr("hidden");
             }
         })
     }

@@ -19,3 +19,7 @@ main {
     flex: 0 0 200px;
     margin-right: 15px;
 }
+
+#mainContent {
+    flex: 1;
+}

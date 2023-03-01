@@ -17,8 +17,10 @@
     -->
     <sql id="selectPost">
         select p.post_id, p.board_id, p.user_id, p.title, p.content, p.view_cnt, p.comment_cnt, p.like_cnt,
-                p.created_date, p.modified_date, u.user_name
-        from post p join user u on p.user_id = u.user_id
+                p.created_date, p.modified_date, u.user_name, b.board_name
+        from post p
+        join user u on p.user_id = u.user_id
+        join board b on p.board_id = b.board_id
     </sql>
 
     <!--
@@ -45,7 +47,7 @@
     <select id="selectAll" parameterType="PostListRequest" resultType="PostResponse">
         <include refid="selectPost" />
         <if test='boardId != null'>
-            where board_id = #{boardId}
+            where p.board_id = #{boardId}
         </if>
         <include refid="sortAndPaging" />
     </select>

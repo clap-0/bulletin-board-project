@@ -8,10 +8,11 @@
 <header th:replace="fragments/header :: headerFragment"></header>
 <main>
     <div th:replace="fragments/sidebar :: boardSidebar"></div>
-    <div th:replace="fragments/main-content :: postListPage"></div>
+    <div th:replace="fragments/main-content :: main-content"></div>
 </main>
 <script th:inline="javascript" th:src="@{/assets/js/jquery/header.js}"></script>
 <script th:inline="javascript" th:src="@{/assets/js/jquery/board.js}"></script>
-<script th:inline="javascript" th:src="@{/assets/js/jquery/page.js}"></script>
+<script th:inline="javascript" th:src="@{/assets/js/jquery/postRead.js}"></script>
+<script th:inline="javascript" th:src="@{/assets/js/jquery/postList.js}"></script>
 </body>
 </html>

@@ -17,4 +17,9 @@ public class PostResponse extends PostInfo {
      * 게시글 작성자 이름
      */
     private String userName;
+
+    /**
+     * 게시판 이름
+     */
+    private String boardName;
 }
