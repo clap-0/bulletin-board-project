@@ -18,6 +18,13 @@ public interface BoardService {
     List<BoardInfo> list();
 
     /**
+     * 전체 하위 게시판 목록을 조회하는 메서드이다.
+     *
+     * @return 조회할 게시판 목록을 담은 List<BoardInfo> 객체
+     */
+    List<BoardInfo> listSub();
+
+    /**
      * 사용자가 관리자인지 확인 후 게시판을 추가하는 메서드이다.
      *
      * @param board 추가할 게시판의 정보를 담은 Board 객체

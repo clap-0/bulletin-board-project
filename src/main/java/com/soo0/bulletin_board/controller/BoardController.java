@@ -36,6 +36,22 @@ public class BoardController {
     }
 
     /**
+     * 전체 하위 게시판 목록을 조회하는 메서드이다.
+     *
+     * @return 조회할 게시판 목록을 담은 List<BoardInfo> 객체와 HTTP 상태 코드를 포함하는 ResponseEntity 객체
+     */
+    @GetMapping("/sub")
+    public ResponseEntity<List<BoardInfo>> listSub() {
+        List<BoardInfo> list;
+        try {
+            list = boardService.listSub();
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
      * 새로운 게시판을 추가하는 메서드이다.
      *
      * @param boardInfo 추가할 게시판의 정보를 담은 BoardInfo 객체

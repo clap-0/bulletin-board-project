@@ -1,20 +1,5 @@
 $(document).ready(function () {
-    const getUserId = () => {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                type: 'GET',
-                url: '/users/me',
-                headers: { 'content-type': 'application/json' },
-                dataType: 'text',
-                success: (response) => {
-                    resolve(response);
-                },
-                error: (error) => {
-                    reject(new Error('로그인이 필요한 서비스입니다.'));
-                },
-            });
-        });
-    };
+    const postControls = $(".post-controls");
 
     /**
      * 게시판 목록의 게시글 제목 클릭 시, 해당 게시글을 출력하도록 클릭 이벤트를 추가했다.
@@ -26,9 +11,24 @@ $(document).ready(function () {
     })
 
     /**
+     * 게시글에서 글쓰기 버튼 클릭 시, 글쓰기 페이지로 이동하도록 클릭 이벤트를 추가했다.
+     */
+    postControls.on("click", ".btn__create-post", () => {
+        window.location.href = "/posts/new";
+    })
+
+    /**
+     * 게시글에서 수정 버튼 클릭 시, 수정 페이지로 이동하도록 클릭 이벤트를 추가했다.
+     */
+    postControls.on("click", ".btn__modify-post", () => {
+        const pno = $(".post-header__title").attr("data-pno");
+        window.location.href = "/posts/new?pno="+pno;
+    })
+
+    /**
      * 게시글에서 삭제 버튼 클릭 시, 해당 글이 삭제되도록 클릭 이벤트를 추가했다.
      */
-    $(".post-controls").on("click", ".btn__remove-post", (event) => {
+    postControls.on("click", ".btn__remove-post", () => {
         const pno = $(".post-header__title").attr("data-pno");
 
         $.ajax({
@@ -40,7 +40,7 @@ $(document).ready(function () {
                 alert("성공적으로 삭제되었습니다.");
                 window.location.href = "/";
             },
-            error: (response) => {
+            error: () => {
                 alert("삭제에 실패하였습니다. 다시 시도해주세요.");
             }
         })
@@ -50,9 +50,8 @@ $(document).ready(function () {
      * 입력받은 게시글을 화면에 출력하는 함수이다.
      *
      * @param post 화면에 표시할 게시글 정보
-     * @param userId 현재 로그인 중인 사용자 ID
      */
-    const printPost = (post, userId) => {
+    const printPost = (post) => {
         const board = $("#postPage .post-header__board");
         board.html(post.boardName);
         board.attr("data-bno", post.boardId);
@@ -72,9 +71,8 @@ $(document).ready(function () {
      * 게시글을 서버에서 가져와 화면에 출력하는 함수이다.
      *
      * @param pno 화면에 출력할 게시글 ID
-     * @param userId 현재 로그인 중인 사용자 ID
      */
-    const getPost = (pno, userId) => {
+    const showPost = (pno) => {
         $.ajax({
             type: 'GET',
             url: "/posts/" + pno,
@@ -86,7 +84,7 @@ $(document).ready(function () {
                 // mainContent 요소 모든 하위 요소들에게 hidden 속성을 부여
                 $("#mainContent > *").attr("hidden", "");
 
-                printPost(post, userId);
+                printPost(post);
 
                 $("#postContainer").removeAttr("hidden");
             },
@@ -94,16 +92,5 @@ $(document).ready(function () {
                 console.log(response);
             }
         })
-    }
-
-    const showPost = (pno) => {
-        getUserId()
-            .then((userId) => {
-                getPost(pno, userId);
-            })
-            .catch((error) => {
-                alert(error.message);
-                window.location.href = '/login';
-            })
     }
 })

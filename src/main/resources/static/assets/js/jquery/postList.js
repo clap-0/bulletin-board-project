@@ -10,8 +10,8 @@ $(document).ready(function () {
     /**
      * 게시글에서 목록 버튼 클릭 시, 해당 글이 속한 게시판의 게시글 목록을 출력하도록 클릭 이벤트를 추가했다.
      */
-    $(".post-controls").on("click", ".btn__list-post", (event) => {
-        const boardId = $(this).closest(".post-header__board").attr("data-bno");
+    $(".post-controls").on("click", ".btn__list-post", () => {
+        const boardId = $(".post-header__board").attr("data-bno");
         showPostListAndPager(1, boardId);
     })
 
@@ -99,7 +99,10 @@ $(document).ready(function () {
         if (boardId !== undefined) {
             url += '&boardId='+boardId;
             const boardName = $(`#boardNav [data-bno="${boardId}"] .board-btn`).text();
-            $("#boardTitle").html(boardName);
+            const boardTitle = $("#boardTitle");
+
+            boardTitle.html(boardName);
+            boardTitle.attr("data-bno", boardId);
         }
 
         $.ajax({

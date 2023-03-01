@@ -27,12 +27,11 @@ public interface BoardMapper {
     List<BoardInfo> selectAll();
 
     /**
-     * 특정 게시판의 하위 게시판 목록을 조회하는 메서드이다.
+     * 전체 하위 게시판 목록을 조회하는 메서드이다.
      *
-     * @param parentId 조회할 게시판 목록의 상위 게시판 ID
      * @return 조회할 하위 게시판 목록을 담은 List<BoardInfo> 객체
      */
-    List<BoardInfo> selectChildAll(Integer parentId);
+    List<BoardInfo> selectChildAll();
 
     /**
      * 게시판의 개수를 반환하는 메서드이다.

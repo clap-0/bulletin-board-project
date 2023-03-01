@@ -22,13 +22,12 @@
     </select>
 
     <!--
-        이 쿼리는 특정 게시판의 하위 게시판 목록을 생성된 순서대로 조회한다.
-        Param: parentId 조회할 게시판 목록의 상위 게시판 ID
+        이 쿼리는 전체 하위 게시판 목록을 생성된 순서대로 조회한다.
     -->
-    <select id="selectChildAll" parameterType="int" resultType="BoardInfo">
+    <select id="selectChildAll" resultType="BoardInfo">
         select board_id, parent_id, board_name
         from board
-        where parent_id = #{parentId}
+        where parent_id IS NOT NULL
         order by board_id;
     </select>
 

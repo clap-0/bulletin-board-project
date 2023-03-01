@@ -90,20 +90,4 @@ public class UserController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    /**
-     * 현재 로그인 중인 사용자의 ID를 반환하는 메서드이다.
-     *
-     * @param session HTTP 세션 객체
-     * @return 현재 로그인 중인 사용자 ID
-     * @throws InsufficientAuthenticationException 로그인 하지 않은 사용자인 경우 발생하는 예외
-     */
-    @GetMapping("/users/me")
-    public ResponseEntity<Integer> getUserId(HttpSession session) {
-        Integer userId = (Integer) session.getAttribute("id");
-        if (userId == null) {
-            throw new InsufficientAuthenticationException("Access denied: authentication required");
-        }
-        return new ResponseEntity<>(userId, HttpStatus.OK);
-    }
 }

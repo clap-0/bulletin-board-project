@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <th:block th:replace="fragments/head :: headFragment"></th:block>
+</head>
+<body>
+<header th:replace="fragments/header :: headerFragment"></header>
+<main>
+  <form id="postForm">
+    <div class="form-header">
+      <h2 th:if="${pno == null}" class="form-title__post">게시글 작성</h2>
+      <h2 th:if="${pno != null}" class="form-title__post">게시글 수정</h2>
+      <hr/>
+    </div>
+    <div class="form-content">
+      <div class="form-group">
+        <select class="form-content__board-select" required>
+          <option value="" disabled>게시판을 선택해주세요.</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <input type="text" placeholder="제목을 입력해주세요" class="form-content__title" required/>
+      </div>
+
+      <div class="form-group">
+        <textarea placeholder="내용을 입력해주세요" class="form-content__content" required></textarea>
+      </div>
+    </div>
+    <div class="form-footer post-controls">
+      <button type="submit" class="btn__submit-post">
+        [[${pno == null} ? '등록' : '수정']]
+      </button>
+      <hr/>
+    </div>
+  </form>
+</main>
+<script th:inline="javascript" th:src="@{/assets/js/jquery/header.js}"></script>
+<script th:inline="javascript" th:src="@{/assets/js/jquery/write.js}"></script>
+</body>
+</html>
