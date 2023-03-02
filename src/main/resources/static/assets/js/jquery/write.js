@@ -1,10 +1,10 @@
 $(document).ready(function () {
     /**
-     *
+     * 게시글 작성 혹은 수정 폼에서 submit 이벤트가 발생했을 때,
+     * 해당하는 요청을 보내는 함수이다.
      */
     $("#postForm").on("submit", (event) => {
         event.preventDefault();
-        console.log(event);
 
         const params = new URLSearchParams(location.search);
         const pno = params.get('pno');
