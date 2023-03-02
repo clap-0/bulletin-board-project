@@ -1,0 +1,89 @@
+.form__auth {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-header h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.form-content {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form__auth label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form__auth input {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.form__auth input:focus {
+    outline: none;
+    border-color: #666;
+}
+
+.form__auth input[type="password"]:not(:last-child) {
+    margin-right: 10px;
+}
+
+.form-footer {
+    text-align: center;
+}
+
+.login_btn,
+.signup_btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login_btn:hover,
+.signup_btn:hover {
+    background-color: #3e8e41;
+}
+
+.errMsg {
+    padding: 7px 10px 10px 10px;
+    color: #FF8C00;
+}
+
+.errMsg:first-child {
+    text-align: center;
+}
+
+.additional-links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.additional-links a {
+    color: #4CAF50;
+}

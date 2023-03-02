@@ -7,6 +7,9 @@
 
 /* Screens */
 @import "./screens/post-list.css";
+@import "./screens/post.css";
+@import "./screens/auth-form.css";
+@import "./screens/write.css";
 
 main {
     display: flex;

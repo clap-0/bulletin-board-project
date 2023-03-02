@@ -8,46 +8,61 @@
     margin-top: 10px;
 }
 
-#postListBody {
-    font-size: 16px;
+#postListPage,
+.table__post-list {
+    width: 100%;
 }
 
-#postListBody tr:nth-child(even) {
+.tbody__post-list {
+    font-size: 14px;
+}
+
+.tbody__post-list tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
-#postListBody td {
+.thead__post-list th,
+.tbody__post-list td {
     padding: 10px;
     text-align: left;
 }
 
-#postListBody td:first-child {
-    width: 5%;
+.thead__post-list th:first-child,
+.tbody__post-list td:first-child {
+    width: 10%;
 }
 
-#postListBody td:nth-child(2) {
-    width: 55%;
+.thead__post-list th:nth-child(2),
+.tbody__post-list td:nth-child(2) {
+    width: 50%;
 }
 
-#postListBody td:nth-child(2) a {
+.tbody__post-list td:nth-child(2) a {
     color: #333;
     text-decoration: none;
 }
 
-#postListBody td:nth-child(2) a:hover {
+.tbody__post-list td:nth-child(2) a:hover {
     text-decoration: underline;
 }
 
-#postListBody td:nth-child(3) {
+.thead__post-list th:nth-child(3),
+.tbody__post-list td:nth-child(3) {
     width: 15%;
 }
 
-#postListBody td:nth-child(4) {
+.thead__post-list th:nth-child(4),
+.tbody__post-list td:nth-child(4) {
     width: 15%;
 }
 
-#postListBody td:nth-child(5) {
+.thead__post-list th:nth-child(5),
+.tbody__post-list td:nth-child(5) {
     width: 10%;
+}
+
+.tbody__post-list td:nth-child(5) {
+    text-align: right;
 }
 
 #postListPage .post-controls {

@@ -7,7 +7,7 @@
 <body>
 <header th:replace="fragments/header :: headerFragment"></header>
 <main>
-  <form id="postForm">
+  <form id="postForm" class="form__write">
     <div class="form-header">
       <h2 th:if="${pno == null}" class="form-title__post">게시글 작성</h2>
       <h2 th:if="${pno != null}" class="form-title__post">게시글 수정</h2>

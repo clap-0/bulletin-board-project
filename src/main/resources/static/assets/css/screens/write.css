@@ -1,0 +1,23 @@
+.form__write {
+    width: 100%;
+    max-width: 600px;
+    margin: 30px auto;
+}
+
+.form-content__board-select,
+.form-content__title,
+.form-content__content {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #555;
+    background-color: #fff;
+}
+
+.form-content__content {
+    min-height: 100px;
+    resize: vertical;
+}
