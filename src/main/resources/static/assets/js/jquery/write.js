@@ -42,7 +42,7 @@ $(document).ready(function () {
                 window.location.href = "/";
             },
             error: (response) => {
-                console.log(response);
+                errorHandler(response);
             }
         })
     }
@@ -63,9 +63,26 @@ $(document).ready(function () {
                 window.location.href = "/";
             },
             error: (response) => {
-                console.log(response);
+                errorHandler(response);
             }
         })
+    }
+
+    /**
+     * 게시글 작성 및 수정 요청 도중 발생한 예외를 처리하는 메서드이다.
+     *
+     * @param response 서버에게 전달받은 응답
+     */
+    const errorHandler = (response) => {
+        const error = JSON.parse(response.responseText);
+        switch (error.code) {
+            case "ACCOUNT-003":
+                alert("작성자만 수정할 수 있습니다.");
+                break;
+            default:
+                alert("예기치 못한 오류가 발생했습니다. 잠시후 다시 시도해주세요.");
+                break;
+        }
     }
 
     /**
